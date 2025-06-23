@@ -7,9 +7,9 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 # --- EMAIL CONFIGURATION ---
-EMAIL_SENDER = "your-email@gmail.com"
-EMAIL_PASSWORD = "your-app-password"  # Use Gmail App Password
-EMAIL_RECEIVER = "receiver-email@example.com"  # Change to your actual email
+EMAIL_SENDER = "quantexo2005@gmail.com"
+EMAIL_PASSWORD = "itim rgcp ztsi cbef"  # Use Gmail App Password
+EMAIL_RECEIVER = "prashantstha0912@gmail.com"  # Change to your actual email
 
 # --- STREAMLIT PAGE SETTINGS ---
 st.set_page_config(page_title="Quantexo - NEPSE Signal Scanner", layout="wide")
@@ -30,6 +30,12 @@ def load_data(sheet_url):
 
 sheet_url = "https://docs.google.com/spreadsheets/d/1Q_En7VGGfifDmn5xuiF-t_02doPpwl4PLzxb4TBCW0Q/edit?gid=0"
 df = load_data(sheet_url)
+
+# 🧼 Clean and convert columns
+numeric_cols = ['Open', 'High', 'Low', 'Close', 'Volume']
+for col in numeric_cols:
+    df[col] = pd.to_numeric(df[col], errors='coerce')
+df.dropna(subset=numeric_cols, inplace=True)  # Drop rows with missing OHLCV
 
 if df.empty:
     st.stop()
